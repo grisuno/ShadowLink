@@ -2,6 +2,8 @@
 
 > **Where access meets invisibility.**
 
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/7a8be8a0-f5dc-4f2e-8f84-05665aba4220" />
+
 ShadowLink is a **next-generation, automated framework** for generating, obfuscating, and delivering shellcode through in-memory loaders. Designed for red team operations, penetration testing, and offensive research, ShadowLink empowers attackers to deploy stealthy, fileless payloads that execute directly in memory — bypassing traditional AV/EDR detection mechanisms.
 
 With a modular design and seamless automation, ShadowLink turns complex exploitation workflows into **one-liner commands**, making payload delivery faster, smarter, and more evasive than ever.
