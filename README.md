@@ -12,6 +12,15 @@ With a modular design and seamless automation, ShadowLink turns complex exploita
 
 ---
 
+<img width="725" height="576" alt="image" src="https://github.com/user-attachments/assets/4fd70162-e230-47e5-95a9-d8818d8c6712" />
+
+
+## 🔥 What is ShadowLink
+ShadowLink is a modular framework that automates the creation of custom shellcode loaders with built-in evasion capabilities. The system generates native C programs that download shellcode from a remote server and execute it entirely in memory, leaving minimal forensic artifacts on target systems.
+
+The framework supports multiple execution modes including basic shellcode loading, XOR-obfuscated payloads, and advanced Windows process injection techniques. All components are orchestrated through shell scripts that handle shellcode generation, encoding, loader compilation, and cross-platform builds.
+
+
 ## 🔥 Key Features
 
 ✅ **Automated Shellcode Generation**  
@@ -39,6 +48,9 @@ With a modular design and seamless automation, ShadowLink turns complex exploita
 → Works seamlessly with `exploit/multi/handler`.
 
 ---
+
+<img width="607" height="884" alt="image" src="https://github.com/user-attachments/assets/5eb7d6a7-5419-4dda-bf37-6133e32d4369" />
+
 
 ## 🛠️ Installation
 
@@ -82,6 +94,9 @@ sudo apt install \
 - Build a custom C loader that downloads and executes the payload in memory.
 - Output a ready-to-use binary: loader_linux or loader_windows.exe.
 
+<img width="821" height="877" alt="image" src="https://github.com/user-attachments/assets/1fc9ecb4-15f0-44c5-a488-7b8899c30064" />
+
+
 3. Set Up Your Listener
 
 ```bash
@@ -124,6 +139,7 @@ shadowlink/
 - ✅ In-Memory Execution: No PE file parsing.
 - ✅ NTAPI Direct Calls: Evades API hooking on Windows.
 
+<img width="1724" height="381" alt="image" src="https://github.com/user-attachments/assets/6b1c37b1-b7a7-4074-a02f-5a35e0f11931" />
 
 ## ⚠️ Legal Disclaimer
 This tool is for educational and authorized security testing only.
