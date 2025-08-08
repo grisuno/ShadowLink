@@ -27,4 +27,4 @@ print()
 "
 
 # Limpiar
-rm -f "$TMP_FILE"
+rm -f "$TMP_FILE" 
