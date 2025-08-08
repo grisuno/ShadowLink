@@ -38,13 +38,13 @@ cat > Makefile << 'EOF'
 .PHONY: linux windows clean
 
 linux: loader_linux.c
-	gcc loader_linux.c -o loader_linux -lcurl -s -O2
+        gcc loader_linux.c -o loader_linux -lcurl -s -O2
 
 windows: loader_windows.c
-	x86_64-w64-mingw32-gcc loader_windows.c -o loader_windows.exe -lws2_32 -s -O2
+        x86_64-w64-mingw32-gcc loader_windows.c -o loader_windows.exe -lws2_32 -s -O2
 
 clean:
-	rm -f loader_linux loader_windows.exe loader_linux.c loader_windows.c
+        rm -f loader_linux loader_windows.exe loader_linux.c loader_windows.c
 
 
 # Escapar caracteres para C
