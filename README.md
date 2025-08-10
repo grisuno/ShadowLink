@@ -161,7 +161,11 @@ Contributions are highly welcome!
 | ShadowLink — Because the best connections are the ones no one sees.
 | Made with ❤️ and a little bit of darkness. 
 
+## Links
 
+- https://github.com/grisuno/OverRide
+- https://github.com/grisuno/cgoblin
+- https://github.com/grisuno/gomulti_loader
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
