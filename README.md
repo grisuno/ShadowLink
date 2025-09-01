@@ -163,9 +163,26 @@ Contributions are highly welcome!
 
 ## Links
 
-- https://github.com/grisuno/OverRide
+- https://github.com/grisuno/LazyOwn
+- https://grisuno.github.io/LazyOwn/
+- https://www.reddit.com/r/LazyOwn/
+- https://github.com/grisuno/LazyOwnBT
+- https://web.facebook.com/profile.php?id=61560596232150
+- https://app.hackthebox.com/teams/overview/6429
+- https://app.hackthebox.com/users/1998024
+- https://patreon.com/LazyOwn 
+- https://deepwiki.com/grisuno/ebird3
+- https://deepwiki.com/grisuno/hellbird
 - https://github.com/grisuno/cgoblin
 - https://github.com/grisuno/gomulti_loader
+- https://github.com/grisuno/ShadowLink
+- https://github.com/grisuno/OverRide
+- https://github.com/grisuno/amsi
+- https://medium.com/@lazyown.redteam
+- https://discord.gg/V3usU8yH
+- https://ko-fi.com/Y8Y2Z73AV
+- https://medium.com/@lazyown.redteam/the-ebird3-chronicles-when-your-calculator-gets-a-phd-in-cybercrime-and-why-thats-perfectly-cc1738a3affc
+- https://github.com/grisuno/LazyOwn/archive/refs/tags/release/0.2.58.tar.gz 
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
