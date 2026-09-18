@@ -1,0 +1,23 @@
+{
+  "tool": "readmenator",
+  "generated_at": "2026-09-18T06:51:48Z",
+  "project_root": "/tmp/push_ShadowLink_20260918_033829",
+  "files": 8,
+  "symbols": 3,
+  "imports": 1,
+  "resolved_imports": 0,
+  "security_findings": 0,
+  "languages": {
+    "py": 1,
+    "sh": 7
+  },
+  "entrypoints": [],
+  "start_here": "INDEX.md",
+  "workflow": [
+    "ls *.md readmenator-*/  # orient: docs first, ignore build noise",
+    "grep -n '<keyword>' INDEX.md",
+    "cat KB_<subsystem>.md",
+    "grep -n '<file>' ARCHITECTURE.md SYMBOLS.md"
+  ],
+  "regenerate": "readmenator . --rebuild"
+}
