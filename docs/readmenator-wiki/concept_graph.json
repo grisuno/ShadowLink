@@ -1,0 +1,129 @@
+{
+  "concepts": [
+    {
+      "name": "gen",
+      "files": [
+        "gen_loader.sh",
+        "gen_loader2.sh",
+        "gen_loader_win_infect.sh",
+        "gen_txt.sh",
+        "gen_xor.sh"
+      ],
+      "mentions": 14,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "usage",
+      "files": [
+        "gen_loader.sh",
+        "gen_loader2.sh",
+        "gen_loader_win_infect.sh"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "txt",
+      "files": [
+        "gen_txt.sh",
+        "gen_xor.sh"
+      ],
+      "mentions": 6,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "xor",
+      "files": [
+        "gen_xor.sh",
+        "main.sh"
+      ],
+      "mentions": 6,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "loader",
+      "files": [
+        "gen_loader.sh",
+        "gen_loader_win_infect.sh"
+      ],
+      "mentions": 4,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "bin",
+      "files": [
+        "gen_txt.sh",
+        "gen_xor.sh"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "linux",
+      "files": [
+        "gen_txt.sh",
+        "main.sh"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "shellcode",
+      "files": [
+        "gen_txt.sh",
+        "gen_xor.sh"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "windows",
+      "files": [
+        "gen_txt.sh",
+        "main.sh"
+      ],
+      "mentions": 3,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "lhost",
+      "files": [
+        "gen_txt.sh",
+        "main.sh"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "lport",
+      "files": [
+        "gen_txt.sh",
+        "main.sh"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    },
+    {
+      "name": "uso",
+      "files": [
+        "gen_txt.sh",
+        "main.sh"
+      ],
+      "mentions": 2,
+      "confidence": "EXTRACTED"
+    }
+  ],
+  "relations": [],
+  "dialectic": [
+    "Thesis: `bin` centralizes 2 files; Antithesis: `gen` pulls 5 files with 2 shared (Jaccard 0.40); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `bin` centralizes 2 files; Antithesis: `shellcode` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `bin` centralizes 2 files; Antithesis: `txt` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `gen` centralizes 5 files; Antithesis: `loader` pulls 2 files with 2 shared (Jaccard 0.40); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `gen` centralizes 5 files; Antithesis: `shellcode` pulls 2 files with 2 shared (Jaccard 0.40); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `gen` centralizes 5 files; Antithesis: `txt` pulls 2 files with 2 shared (Jaccard 0.40); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `gen` centralizes 5 files; Antithesis: `usage` pulls 3 files with 3 shared (Jaccard 0.60); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `lhost` centralizes 2 files; Antithesis: `linux` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `lhost` centralizes 2 files; Antithesis: `lport` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?",
+    "Thesis: `lhost` centralizes 2 files; Antithesis: `uso` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?"
+  ]
+}
