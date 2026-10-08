@@ -1,8 +1,8 @@
 # Subsystem: root
 
 ## app.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
 - Layer: utility
+- Doc: app.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: xx/xx/xxxx Licenci
 - Language: py
 
 ## gen_loader.sh
@@ -24,13 +24,13 @@
   - `usage` (function, line 11)
 
 ## gen_txt.sh
-- Doc: Script paramétrico para generar shellcode (Linux/Windows) con configuración personalizable Uso...
 - Layer: utility
+- Doc: gen_text.sh - Script paramétrico para generar shellcode (Linux/Windows) con configuración personalizable Uso: ./gen_txt.
 - Language: sh
 
 ## gen_xor.sh
-- Doc: <input.bin> > shellcode.txt
 - Layer: utility
+- Doc: gen_xor.sh <input.bin> > shellcode.txt
 - Language: sh
 
 ## install.sh
@@ -38,6 +38,6 @@
 - Language: sh
 
 ## main.sh
-- Doc: === main.sh === Uso: ./main.sh <OS> <LHOST> [LPORT] [xor] [KEY] [PROCESS_NAME] Ejemplos...
 - Layer: utility
+- Doc: === main.sh === Uso: ./main.sh <OS> <LHOST> [LPORT] [xor] [KEY] [PROCESS_NAME] Ejemplos: ./main.sh linux 10.10.14.11 555
 - Language: sh

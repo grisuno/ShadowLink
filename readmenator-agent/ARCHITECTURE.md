@@ -6,4 +6,4 @@
 
 ## External Imports
 
-- `app.py` -> os
+- `app.py` -> `os`

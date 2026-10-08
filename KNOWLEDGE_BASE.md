@@ -11,7 +11,7 @@
 
 **Total Files Parsed:** 8 | **Total Symbols Extracted:** 3 | **Total Imports:** 1
 
-<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:1e0fd0b | date:2026-07-18 -->
+<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:05a4468 | date:2026-07-18 -->
 
 
 ## Table of Contents
@@ -25,13 +25,12 @@
 7. [Change Impact Analysis](#change-impact-analysis)
 8. [Suggested Linting Rules](#suggested-linting-rules)
 9. [Dataflow Analysis](#dataflow-analysis)
-10. [Concept Graph](#concept-graph)
-11. [Orphans](#orphans)
-12. [Query Recipes](#query-recipes)
-13. [Structural Knowledge Map](#structural-knowledge-map)
-14. [UML Class Diagram](#uml-class-diagram)
-15. [Code Property Graph](#code-property-graph)
-16. [Architecture Reference](#architecture-reference)
+10. [Orphans](#orphans)
+11. [Query Recipes](#query-recipes)
+12. [Structural Knowledge Map](#structural-knowledge-map)
+13. [UML Class Diagram](#uml-class-diagram)
+14. [Code Property Graph](#code-property-graph)
+15. [Architecture Reference](#architecture-reference)
     - [PY (1 files)](#py-1-files)
     - [SH (7 files)](#sh-7-files)
 
@@ -158,42 +157,6 @@ Procedural intra-function dataflow findings (zero tokens, regex-based heuristics
 | `gen_loader_win_infect.sh` | `usage` | 254 | `DEAD_STORE` | `path_len` | `path_len` assigned at line 254 but never read afterwards. |
 | `gen_loader_win_infect.sh` | `usage` | 199 | `UNCHECKED_ALLOC` | `sc` | Result of allocator stored in `sc` is never checked against NULL. |
 | `gen_loader_win_infect.sh` | `usage` | 269 | `UNCHECKED_ALLOC` | `sock` | Result of allocator stored in `sock` is never checked against NULL. |
-
----
-
-## Concept Graph
-
-Semantic second-brain layer: nouns are concept nodes, verbs are edges. Each noun maps atomically to a file set (EXTRACTED); each verb aggregates structural imports, calls, and inherits into consumes, invokes, extends, depends_on, or bridges (INFERRED).
-
-**12 concepts, 0 relations.**
-
-| Concept | Files | Mentions |
-|---------|-------|----------|
-| `gen` | 5 | 14 |
-| `usage` | 3 | 3 |
-| `txt` | 2 | 6 |
-| `xor` | 2 | 6 |
-| `loader` | 2 | 4 |
-| `bin` | 2 | 3 |
-| `linux` | 2 | 3 |
-| `shellcode` | 2 | 3 |
-| `windows` | 2 | 3 |
-| `lhost` | 2 | 2 |
-| `lport` | 2 | 2 |
-| `uso` | 2 | 2 |
-
-### Dialectic Prompts
-
-- Thesis: `bin` centralizes 2 files; Antithesis: `gen` pulls 5 files with 2 shared (Jaccard 0.40); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
-- Thesis: `bin` centralizes 2 files; Antithesis: `shellcode` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
-- Thesis: `bin` centralizes 2 files; Antithesis: `txt` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
-- Thesis: `gen` centralizes 5 files; Antithesis: `loader` pulls 2 files with 2 shared (Jaccard 0.40); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
-- Thesis: `gen` centralizes 5 files; Antithesis: `shellcode` pulls 2 files with 2 shared (Jaccard 0.40); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
-- Thesis: `gen` centralizes 5 files; Antithesis: `txt` pulls 2 files with 2 shared (Jaccard 0.40); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
-- Thesis: `gen` centralizes 5 files; Antithesis: `usage` pulls 3 files with 3 shared (Jaccard 0.60); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
-- Thesis: `lhost` centralizes 2 files; Antithesis: `linux` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
-- Thesis: `lhost` centralizes 2 files; Antithesis: `lport` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
-- Thesis: `lhost` centralizes 2 files; Antithesis: `uso` pulls 2 files with 2 shared (Jaccard 1.00); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
 
 ---
 
